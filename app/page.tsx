@@ -35,7 +35,7 @@ export default function Home() {
   const dateString = new Intl.DateTimeFormat("en-US", dateOptions).format(time);
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-[#050505] text-[#e0e0e0] overflow-hidden relative selection:bg-white/20">
+    <div className="flex min-h-screen w-full items-center justify-center bg-[#010000] text-[#e0e0e0] overflow-hidden relative selection:bg-white/20">
       {/* Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-[#1a1a1a] via-[#000000] to-[#000000] opacity-80"></div>
       
