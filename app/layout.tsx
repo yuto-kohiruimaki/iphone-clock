@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
+import Menu from "@/components/menu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoSans.variable} ${notoSansJP.variable} antialiased`}
       >
         {children}
+        <Menu />
       </body>
     </html>
   );
