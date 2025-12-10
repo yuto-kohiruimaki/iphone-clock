@@ -15,6 +15,7 @@ export default function Menu() {
   const [mode, setMode] = useState<TimerMode>("focus");
   const [status, setStatus] = useState<TimerStatus>("idle");
   const [timeLeft, setTimeLeft] = useState(FOCUS_TIME);
+  const [flashColor, setFlashColor] = useState<"emerald" | "blue" | null>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -28,11 +29,13 @@ export default function Menu() {
       if (mode === "focus") {
         setMode("break");
         setTimeLeft(BREAK_TIME);
-        setStatus("idle"); // Auto-pause or auto-start? Let's auto-pause to let user take a breath
+        setStatus("idle");
+        setFlashColor("blue");
       } else {
         setMode("focus");
         setTimeLeft(FOCUS_TIME);
         setStatus("idle");
+        setFlashColor("emerald");
       }
     }
 
@@ -51,6 +54,7 @@ export default function Menu() {
     setStatus("idle");
     setMode("focus");
     setTimeLeft(FOCUS_TIME);
+    setFlashColor(null);
   };
 
   const formatTime = (seconds: number) => {
@@ -68,6 +72,21 @@ export default function Menu() {
 
   return (
     <>
+      {/* Full Screen Flash Overlay */}
+      <AnimatePresence>
+        {flashColor && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.3, 0] }}
+            transition={{ duration: 0.8, repeat: 2, ease: "easeInOut" }}
+            onAnimationComplete={() => setFlashColor(null)}
+            className={`fixed inset-0 z-[100] pointer-events-none mix-blend-screen ${
+              flashColor === "emerald" ? "bg-emerald-500" : "bg-blue-500"
+            }`}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Top Right Donut Timer */}
       <AnimatePresence>
         {(status !== "idle" || timeLeft !== FOCUS_TIME) && (
