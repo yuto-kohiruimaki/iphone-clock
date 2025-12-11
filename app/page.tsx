@@ -1,6 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const Digit = ({ char }: { char: string }) => {
+  return (
+    <div className="relative inline-block overflow-hidden">
+      {/* Invisible character to maintain width and layout */}
+      <span className="opacity-0">{char}</span>
+      <AnimatePresence mode="popLayout">
+        <motion.span
+          key={char}
+          initial={{ y: "100%", opacity: 0, filter: "blur(10px)" }}
+          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-100%", opacity: 0, filter: "blur(10px)" }}
+          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+          className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-white to-white/80 bg-clip-text text-transparent"
+        >
+          {char}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export default function Home() {
   const [time, setTime] = useState<Date | null>(null);
@@ -50,10 +72,12 @@ export default function Home() {
 
           <div className="flex items-center justify-center flex-1 w-full min-w-0 px-2">
             <div
-              className="text-[28vw] font-(family-name:--font-noto-sans) font-thin tracking-tight tabular-nums leading-none drop-shadow-2xl bg-linear-to-b from-white to-white/80 bg-clip-text text-transparent whitespace-nowrap"
+              className="text-[28vw] font-(family-name:--font-noto-sans) font-thin tracking-tight tabular-nums leading-none drop-shadow-2xl whitespace-nowrap flex justify-center"
               style={{ transform: 'scaleX(0.8)' }}
             >
-              {timeString}
+              {timeString.split("").map((char, index) => (
+                <Digit key={index} char={char} />
+              ))}
             </div>
           </div>
 
